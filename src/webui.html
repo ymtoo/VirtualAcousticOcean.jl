@@ -218,12 +218,12 @@
             try {
                 const response = await fetch(`/${action}`);
                 const result = await response.text();
+                await updateStatus(); // Refresh status first to show current reality (e.g., not running after a stop)
                 if (result.trim() !== "OK") {
                     statusOutput.textContent = `Failed to ${action} VAO:\n\n` + result + `\n\n` + statusOutput.textContent;
-                } else {
-                    updateStatus();
                 }
             } catch (error) {
+                await updateStatus(); 
                 statusOutput.textContent = `Error during ${action}:\n\n` + error.message + `\n\n` + statusOutput.textContent;
             }
         }
